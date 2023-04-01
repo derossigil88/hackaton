@@ -1,0 +1,12 @@
+name: Docker CI with Gradle
+
+on: 
+  push:
+    branch: ["main"]
+ 
+permission: 
+  contents: read
+
+jobs: 
+  build: -
+  build-image: -
