@@ -8,3 +8,4 @@ DB_PASSWORD=password
 
 teste push
 teste push 2
+teste conta nova
