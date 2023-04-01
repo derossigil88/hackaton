@@ -42,7 +42,7 @@ jobs:
           
       - name: login amazon ecr
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v3
       - name: build and push amazon ecr
         env: 
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
