@@ -1,5 +1,5 @@
 name: Build and test
-ru-name: Build and test workflow
+run-name: Build and test workflow
 on: 
  push: 
  pull_request:
