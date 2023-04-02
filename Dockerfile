@@ -10,7 +10,7 @@ COPY package.json
 
 RUN nmp install
 
-COPY . .
+COPY . ./
 
 EXPOSE 8080
 
