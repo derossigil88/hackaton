@@ -1,17 +1,23 @@
-FROM node:13.12.0-alpine
+FROM gradle:7.6-jdk17 AS TEMP_BUILD_IMAGE
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY build.gradle settings.gradle $APP_HOME
 
-WORKDIR /app
-
-RUN chow -R node /app
-
+COPY gradle $APP_HOME/gradle
+COPY --chown=gradle:gradle . /home/gradle/src
 USER root
+RUN chown -R gradle /home/gradle/src
 
-COPY package.json
+RUN gradle build || return 0
+COPY . .
+RUN gradle clean build
 
-RUN nmp install
+FROM openjdk:17-jdk-slim
+ENV ARTIFACT_NAME=hackaton-0.0.1-SNAPSHOT-plain.jar
+ENV APP_HOME=/usr/app/
 
-COPY . ./
+WORKDIR $APP_HOME
+COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
 
-EXPOSE 8080
-
-CMD ["node", "server.js"]
+EXPOSE 80
+ENTRYPOINT exec java -jar ${ARTIFACT_NAME}
